@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/09 20:32:06 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/11 13:27:36 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -62,12 +62,3 @@ char	*find_pth(char *cmnd, char **env)
 	free(final);
 	return (0);
 }
-
-/*int main(int argc, char **argv, char **env)
-{
-	char *pth =  find_path("pwd", env);
-	if (pth)
-		printf("%s\n", pth);
-	return 0;
-}
-*/
