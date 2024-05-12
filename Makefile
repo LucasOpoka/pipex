@@ -1,4 +1,4 @@
-SRCS = pipex.c utils.c libft.a
+SRCS = pipex.c utils.c libft.a split2.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror

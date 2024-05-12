@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/04/21 18:59:27 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/12 18:30:45 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	*ft_memchr(const void *mem, int c, size_t size);
 int		ft_memcmp(const void *mem1, const void *mem2, size_t size);
 
 char	*ft_strnstr(const char *str, const char *to_find, size_t size);
+
+char	*ft_strstr(const char *str, const char *to_find);
 
 int		ft_atoi(const char *str);
 

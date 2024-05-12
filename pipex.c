@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/11 13:44:00 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/12 18:36:53 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,57 @@
 #include <fcntl.h>
 #include "libft.h"
 
+
+char	**split2(const char *s, char sep);
+
 char	*find_pth(char *cmnd, char **env);
 void	free_char_arr(char **arr);
 
-void	exe(char *cmnd_str, char **env)
+int	exe(char *cmnd_str, char **env)
 {
 	char	**cmnd;
 	char	*pth;
 
-	cmnd = ft_split(cmnd_str, ' ');
+	cmnd = split2(cmnd_str, ' ');
 	if (!cmnd)
-		exit (1);
+		return (1);
 	pth = find_pth(cmnd[0], env);
 	if (!pth)
 	{
 		free_char_arr(cmnd);
 		perror("Command not found");
-		exit (EXIT_FAILURE);
+		return (127);
 	}
 	if (execve(pth, cmnd, env) == -1)
 	{
 		perror("Execve failed\n");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
+	return (0);
 }
+
+char	*get_shell(char **env)
+{
+	int		i;
+	char	**arr;
+	char	*res;
+
+	i = 0;
+	while (env[i] && !ft_strstr(env[i], "SHELL"))
+		i++;
+	arr = ft_split(env[i], '/');
+	if (!arr)
+		return (NULL);
+	i = 0;
+	while (arr[i])
+		i++;
+	res = arr[i - 1];
+	while (i - 2 >= 0)
+		free(arr[i-- - 2]);
+	free(arr);
+	return (res);
+}
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -50,9 +77,12 @@ int	main(int ac, char **av, char **env)
 	pid_t	pid2;
 	int		fd_in;
 	int		fd_out;
+	int		err;
+
+	printf("%s\n", get_shell(env));
 
 	if (ac != 5)
-		exit(0);
+		exit(1);
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe failed");
@@ -70,15 +100,17 @@ int	main(int ac, char **av, char **env)
 		fd_in = open(av[1], O_RDONLY);
 		if (fd_in == -1)
 		{
-			perror("Opening 1st file failed");
-			exit (EXIT_FAILURE);
+			//perror("Opening 1st file failed");
+			return (3);
 		}
 
 		dup2(fd_in, 0);
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		exe(av[2], env);
+		err = exe(av[2], env);
+		if (err)
+			return (err);
 	}
 
 
@@ -93,22 +125,31 @@ int	main(int ac, char **av, char **env)
 		fd_out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC , 0644);
 		if (fd_out == -1)	
 		{
-			perror("Opening 2nd file failed");
-			exit (EXIT_FAILURE);
+			//perror("Opening 2nd file failed");
+			return (3);
 		}
 		dup2(fd[0], 0);
 		dup2(fd_out, 1);
 		close(fd[0]);
 		close(fd[1]);
-		exe(av[3], env);
+		err = exe(av[3], env);
+		if (err)
+			return (err);
 	}
 
 
 	close(fd[0]);
 	close(fd[1]);
 
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
 
+	int ret1, ret2;
+
+	waitpid(pid1, &ret1, 0);
+	waitpid(pid2, &ret2, 0);
+
+	if (ret1)
+		return (((ret1) & 0xff00) >> 8);
+	if (ret2)
+		return (((ret2) & 0xff00) >> 8);	
 	return (0);
 }
