@@ -1,4 +1,4 @@
-SRCS = pipex.c utils.c libft.a split2.c
+SRCS = sources/pipex.c sources/utils.c sources/libft.a sources/split2.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
 
 ${NAME} : ${SRCS}
-	${CC} ${CFLAGS} ${SRCS} libft.h
+	${CC} ${CFLAGS} ${SRCS} sources/libft.h
 	mv a.out pipex
 
 all : ${NAME}
