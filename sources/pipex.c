@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/12 18:36:53 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/12 18:59:46 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "libft.h"
+#include "ft_printf.h"
+#include <errno.h>
 
 
 char	**split2(const char *s, char sep);
-
 char	*find_pth(char *cmnd, char **env);
 void	free_char_arr(char **arr);
 
@@ -78,8 +79,23 @@ int	main(int ac, char **av, char **env)
 	int		fd_in;
 	int		fd_out;
 	int		err;
+	char	*shell;
 
-	printf("%s\n", get_shell(env));
+	shell = get_shell(env);
+
+	fd_in = open(av[1], O_RDONLY);
+	fd_out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC , 0644);
+	if (fd_in == -1)
+	{
+		ft_printf("%s: %s: %s\n", shell, strerror(errno), av[1]);
+		return (1);
+	}
+	if (fd_out == -1)	
+	{
+		close(fd_in);
+		ft_printf("%s: %s: %s\n", shell, strerror(errno), av[4]);
+		return (1);
+	}
 
 	if (ac != 5)
 		exit(1);
@@ -97,13 +113,6 @@ int	main(int ac, char **av, char **env)
 	}
 	if (pid1 == 0)
 	{
-		fd_in = open(av[1], O_RDONLY);
-		if (fd_in == -1)
-		{
-			//perror("Opening 1st file failed");
-			return (3);
-		}
-
 		dup2(fd_in, 0);
 		dup2(fd[1], 1);
 		close(fd[0]);
@@ -122,12 +131,6 @@ int	main(int ac, char **av, char **env)
 	}
 	if (pid2 == 0)
 	{
-		fd_out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC , 0644);
-		if (fd_out == -1)	
-		{
-			//perror("Opening 2nd file failed");
-			return (3);
-		}
 		dup2(fd[0], 0);
 		dup2(fd_out, 1);
 		close(fd[0]);
