@@ -16,6 +16,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+typedef struct s_token
+{
+	const char	*start;
+	const char	*end;
+}	t_token;
+
 typedef struct s_split
 {
 	char	**res;
@@ -93,6 +99,10 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 
 char	**ft_split(char const *str, char c);
+
+char	**ft_split_sub(char const *str, char c);
+
+char	**ft_free_split(char **arr, int i);
 
 char	*ft_itoa(int nbr);
 

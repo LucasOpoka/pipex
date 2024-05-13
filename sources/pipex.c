@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/12 18:59:46 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/13 13:15:39 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include <errno.h>
 
 
-char	**split2(const char *s, char sep);
 char	*find_pth(char *cmnd, char **env);
 void	free_char_arr(char **arr);
 
@@ -30,7 +29,7 @@ int	exe(char *cmnd_str, char **env)
 	char	**cmnd;
 	char	*pth;
 
-	cmnd = split2(cmnd_str, ' ');
+	cmnd = ft_split_sub(cmnd_str, ' ');
 	if (!cmnd)
 		return (1);
 	pth = find_pth(cmnd[0], env);
