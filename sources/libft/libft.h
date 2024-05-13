@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/12 18:30:45 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:17:10 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdarg.h>
 
 typedef struct s_token
 {
@@ -135,5 +136,23 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+/* - - - - - ft_printf - - - - -*/
+
+int		ft_printf(const char *s, ...);
+
+int		prnt_c(int c);
+
+void	prnt_s(char *str, int *len, int *err);
+
+void	prnt_p(unsigned long long pt, int *len, int *err);
+
+void	prnt_d(int nb, int *len, int *err);
+
+void	prnt_u(unsigned int nb, int *len, int *err);
+
+void	prnt_x(unsigned int n, int *len, int capital, int *err);
+
+void	err_chck(int write_res, int *len, int *err);
 
 #endif

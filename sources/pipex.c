@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 13:15:39 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:09:59 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include "libft.h"
-#include "ft_printf.h"
 #include <errno.h>
+#include <libft.h>
 
 
 char	*find_pth(char *cmnd, char **env);
