@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 16:59:22 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:54:45 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int ac, char **av, char **env)
 	pid_t	pid2;
 	int		fd_in;
 	int		fd_out;
-	int		err;
+
 	//char	*shell;
 
 	//shell = get_shell(env);
@@ -146,7 +146,7 @@ int	main(int ac, char **av, char **env)
 			dup2(fd[1], 1);
 			close(fd[0]);
 			close(fd[1]);
-			err = exe(av[2], env, 0);
+			exe(av[2], env, 0);
 		}
 	}
 
@@ -163,7 +163,7 @@ int	main(int ac, char **av, char **env)
 		dup2(fd_out, 1);
 		close(fd[0]);
 		close(fd[1]);
-		err = exe(av[3], env, 1);
+		exe(av[3], env, 1);
 	}
 
 

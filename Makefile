@@ -6,17 +6,17 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/13 18:25:22 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/14 20:53:14 by lucas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = Sources/pipex.c Sources/utils.c
+SRCS = sources/pipex.c sources/utils.c
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I ./Sources/libft
+CFLAGS = -Wall -Wextra -Werror -I ./sources/libft
 
 DEPSFLAGS += -MMD -MP
 
@@ -24,7 +24,7 @@ OFILES = ${SRCS:.c=.o}
 
 DEPS = ${SRCS:.c=.d}
 
-LIBFT = ./Sources/libft
+LIBFT = ./sources/libft
 
 all : ${NAME}
 
