@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 20:54:45 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/14 21:24:39 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 
-char	*find_pth(char *cmnd, char **env);
+char	*find_pth(char *cmnd, char **env, int last);
 void	free_char_arr(char **arr);
 
 int	exe(char *cmnd_str, char **env, int last)
@@ -35,13 +35,15 @@ int	exe(char *cmnd_str, char **env, int last)
 	if (!cmnd[0] || !cmnd_str[0])
 	{
 		free_char_arr(cmnd);
-		if (cmnd_str[0] == ' ')
+		if (cmnd_str[0] == ' ' || !cmnd_str[0])
 			ft_printf_fd(2, "%s: command not found: %s\n", "pipex", cmnd_str);
 		else
 			ft_printf_fd(2, "%s: permission denied:\n", "pipex");
-		exit (7);
+		if (last)
+			exit (127);
+		exit (0);
 	}
-	pth = find_pth(cmnd[0], env);
+	pth = find_pth(cmnd[0], env, last);
 	//issues here
 	if (!pth || !cmnd_str[0] || env == NULL)
 	{
@@ -55,14 +57,14 @@ int	exe(char *cmnd_str, char **env, int last)
 		{
 			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
 			free_char_arr(cmnd);
-			exit (126);
+			exit (127);
 		}
 	}
 	if (execve(pth, cmnd, env) == -1)
 	{
 		ft_printf_fd(2, "%s: %s\n", "pipex", strerror(errno));
 		if (last)
-			exit (126);
+			exit (127);
 		exit (0);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 16:32:03 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:30:54 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -28,7 +28,7 @@ void	free_char_arr(char **arr)
 	free(arr);
 }
 
-char	*find_pth(char *cmnd, char **env)
+char	*find_pth(char *cmnd, char **env, int last)
 {
 	int		i;
 	char	**arr;
@@ -43,14 +43,25 @@ char	*find_pth(char *cmnd, char **env)
 		else
 		{
 			ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd);
-			return (0);
+			if (last)
+				exit (127);
+			exit (0);
 		}
 	}
-	//Test
-
+	
 	i = 0;
 	while (env[i] && ft_strnstr(env[i], "PATH", 4) == 0)
 		i++;
+	if (!env[i])
+	{
+		ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd);
+		if (last)
+			exit (127);
+		exit (0);
+	}
+	//Test
+
+
 	arr = ft_split(env[i] + 5, ':');
 	if (!arr)
 		return (0);
