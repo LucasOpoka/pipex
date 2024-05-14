@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 12:21:36 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 13:46:47 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int ac, char **av, char **env)
 	fd_out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC , 0644);
 	if (fd_in == -1)
 	{
-		fprintf(stderr, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
 		//return (1);
 	}
 	if (fd_out == -1)	

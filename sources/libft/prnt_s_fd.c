@@ -9,7 +9,7 @@
 /*   Updated: 2024/05/14 13:29:21 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
+#include "libft.h"
 
 void	prnt_s_fd(int fd, char *str, int *len, int *err)
 {
