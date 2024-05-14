@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/11 13:27:36 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:32:03 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -34,6 +34,19 @@ char	*find_pth(char *cmnd, char **env)
 	char	**arr;
 	char	*part;
 	char	*final;
+
+	//Test
+	if (cmnd[0] == '/' || cmnd[0] == '.')
+	{
+		if (access(cmnd, F_OK) == 0)
+			return (cmnd);
+		else
+		{
+			ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd);
+			return (0);
+		}
+	}
+	//Test
 
 	i = 0;
 	while (env[i] && ft_strnstr(env[i], "PATH", 4) == 0)

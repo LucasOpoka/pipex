@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:46:47 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:59:22 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 char	*find_pth(char *cmnd, char **env);
 void	free_char_arr(char **arr);
 
-int	exe(char *cmnd_str, char **env)
+int	exe(char *cmnd_str, char **env, int last)
 {
 	char	**cmnd;
 	char	*pth;
@@ -32,17 +32,38 @@ int	exe(char *cmnd_str, char **env)
 	cmnd = ft_split_sub(cmnd_str, ' ');
 	if (!cmnd)
 		exit (1);
-	pth = find_pth(cmnd[0], env);
-	if (!pth)
+	if (!cmnd[0] || !cmnd_str[0])
 	{
 		free_char_arr(cmnd);
-		perror("Command not found");
-		exit (127);
+		if (cmnd_str[0] == ' ')
+			ft_printf_fd(2, "%s: command not found: %s\n", "pipex", cmnd_str);
+		else
+			ft_printf_fd(2, "%s: permission denied:\n", "pipex");
+		exit (7);
+	}
+	pth = find_pth(cmnd[0], env);
+	//issues here
+	if (!pth || !cmnd_str[0] || env == NULL)
+	{
+		if (!last)
+		{
+			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
+			free_char_arr(cmnd);
+			exit(0);
+		}
+		else
+		{
+			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
+			free_char_arr(cmnd);
+			exit (126);
+		}
 	}
 	if (execve(pth, cmnd, env) == -1)
 	{
-		perror("Execve failed\n");
-		exit (1);
+		ft_printf_fd(2, "%s: %s\n", "pipex", strerror(errno));
+		if (last)
+			exit (126);
+		exit (0);
 	}
 	return (0);
 }
@@ -92,7 +113,7 @@ int	main(int ac, char **av, char **env)
 	if (fd_out == -1)	
 	{
 		close(fd_in);
-		//ft_printf("%s: %s: %s\n", shell, strerror(errno), av[4]);
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
 		return (1);
 	}
 
@@ -115,7 +136,7 @@ int	main(int ac, char **av, char **env)
 		if (fd_in == -1)
 		{
 			close(fd[0]);
-			write(fd[1], "\0", 1);
+			//write(fd[1], "\0", 1);
 			close(fd[1]);
 			return (0);
 		}
@@ -125,7 +146,7 @@ int	main(int ac, char **av, char **env)
 			dup2(fd[1], 1);
 			close(fd[0]);
 			close(fd[1]);
-			err = exe(av[2], env);
+			err = exe(av[2], env, 0);
 		}
 	}
 
@@ -142,7 +163,7 @@ int	main(int ac, char **av, char **env)
 		dup2(fd_out, 1);
 		close(fd[0]);
 		close(fd[1]);
-		err = exe(av[3], env);
+		err = exe(av[3], env, 1);
 	}
 
 
@@ -155,9 +176,9 @@ int	main(int ac, char **av, char **env)
 	waitpid(pid1, &ret1, 0);
 	waitpid(pid2, &ret2, 0);
 
-	if (ret1)
-		return (((ret1) & 0xff00) >> 8);
 	if (ret2)
-		return (((ret2) & 0xff00) >> 8);	
+		return (((ret2) & 0xff00) >> 8);
+	if (ret1)
+		return (((ret1) & 0xff00) >> 8);	
 	return (0);
 }
