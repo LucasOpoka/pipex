@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:17:10 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:01:17 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,20 +157,20 @@ void	err_chck(int write_res, int *len, int *err);
 
 /* - - - - - ft_printf_fd - - - - -*/
 
-int     ft_printf_fd(int fd, const char *s, ...);
+int		ft_printf_fd(int fd, const char *s, ...);
 
-int     prnt_c_fd(int fd, int c);
+int		prnt_c_fd(int fd, int c);
 
-void    prnt_s_fd(int fd, char *str, int *len, int *err);
+void	prnt_s_fd(int fd, char *str, int *len, int *err);
 
-void    prnt_p_fd(int fd, unsigned long long pt, int *len, int *err);
+void	prnt_p_fd(int fd, unsigned long long pt, int *len, int *err);
 
-void    prnt_d_fd(int fd, int nb, int *len, int *err);
+void	prnt_d_fd(int fd, int nb, int *len, int *err);
 
-void    prnt_u_fd(int fd, unsigned int nb, int *len, int *err);
+void	prnt_u_fd(int fd, unsigned int nb, int *len, int *err);
 
-void    prnt_lw_x_fd(int fd, unsigned int n, int *len, int *err);
+void	prnt_lw_x_fd(int fd, unsigned int n, int *len, int *err);
 
-void    prnt_up_x_fd(int fd, unsigned int n, int *len, int *err);
+void	prnt_up_x_fd(int fd, unsigned int n, int *len, int *err);
 
 #endif
