@@ -64,6 +64,14 @@ SRCS = ft_isalpha.c \
 	   prnt_s.c \
 	   prnt_u.c \
 	   prnt_x.c \
+	   ft_printf_fd.c \
+	   prnt_c_fd.c \
+	   prnt_s_fd.c \
+	   prnt_p_fd.c \
+	   prnt_d_fd.c \
+	   prnt_u_fd.c \
+	   prnt_lw_x_fd.c \
+	   prnt_up_x_fd.c \
 
 CC = cc
 
@@ -75,7 +83,7 @@ NAME = libft.a
 
 CRLIB = ar rcs
 
-OFILES = ${SRCS:c=o}
+OFILES = ${SRCS:.c=.o}
 
 DEPS = $(SRCS:.c=.d)
 

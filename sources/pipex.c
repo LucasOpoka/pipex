@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 18:09:59 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/14 12:21:36 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <libft.h>
+#include <stdio.h>
 
 
 char	*find_pth(char *cmnd, char **env);
@@ -30,18 +31,18 @@ int	exe(char *cmnd_str, char **env)
 
 	cmnd = ft_split_sub(cmnd_str, ' ');
 	if (!cmnd)
-		return (1);
+		exit (1);
 	pth = find_pth(cmnd[0], env);
 	if (!pth)
 	{
 		free_char_arr(cmnd);
 		perror("Command not found");
-		return (127);
+		exit (127);
 	}
 	if (execve(pth, cmnd, env) == -1)
 	{
 		perror("Execve failed\n");
-		return (1);
+		exit (1);
 	}
 	return (0);
 }
@@ -77,47 +78,55 @@ int	main(int ac, char **av, char **env)
 	int		fd_in;
 	int		fd_out;
 	int		err;
-	char	*shell;
+	//char	*shell;
 
-	shell = get_shell(env);
+	//shell = get_shell(env);
 
 	fd_in = open(av[1], O_RDONLY);
 	fd_out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC , 0644);
 	if (fd_in == -1)
 	{
-		ft_printf("%s: %s: %s\n", shell, strerror(errno), av[1]);
-		return (1);
+		fprintf(stderr, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
+		//return (1);
 	}
 	if (fd_out == -1)	
 	{
 		close(fd_in);
-		ft_printf("%s: %s: %s\n", shell, strerror(errno), av[4]);
+		//ft_printf("%s: %s: %s\n", shell, strerror(errno), av[4]);
 		return (1);
 	}
 
 	if (ac != 5)
-		exit(1);
+		return (1);
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe failed");
-		exit (EXIT_FAILURE);
+		return (1);
 	}
 
 	pid1 = fork();
 	if (pid1 == -1)
 	{
 		perror("1st fork failed");
-		exit (EXIT_FAILURE);
+		return (1);
 	}
 	if (pid1 == 0)
 	{
-		dup2(fd_in, 0);
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		err = exe(av[2], env);
-		if (err)
-			return (err);
+		if (fd_in == -1)
+		{
+			close(fd[0]);
+			write(fd[1], "\0", 1);
+			close(fd[1]);
+			return (0);
+		}
+		else
+		{
+			dup2(fd_in, 0);
+			dup2(fd[1], 1);
+			close(fd[0]);
+			close(fd[1]);
+			err = exe(av[2], env);
+		}
 	}
 
 
@@ -125,7 +134,7 @@ int	main(int ac, char **av, char **env)
 	if (pid2 == -1)
 	{
 		perror("2nd fork failed");
-		exit (EXIT_FAILURE);
+		exit (1);
 	}
 	if (pid2 == 0)
 	{
@@ -134,8 +143,6 @@ int	main(int ac, char **av, char **env)
 		close(fd[0]);
 		close(fd[1]);
 		err = exe(av[3], env);
-		if (err)
-			return (err);
 	}
 
 

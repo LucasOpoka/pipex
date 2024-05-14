@@ -155,4 +155,22 @@ void	prnt_x(unsigned int n, int *len, int capital, int *err);
 
 void	err_chck(int write_res, int *len, int *err);
 
+/* - - - - - ft_printf_fd - - - - -*/
+
+int     ft_printf_fd(int fd, const char *s, ...);
+
+int     prnt_c_fd(int fd, int c);
+
+void    prnt_s_fd(int fd, char *str, int *len, int *err);
+
+void    prnt_p_fd(int fd, unsigned long long pt, int *len, int *err);
+
+void    prnt_d_fd(int fd, int nb, int *len, int *err);
+
+void    prnt_u_fd(int fd, unsigned int nb, int *len, int *err);
+
+void    prnt_lw_x_fd(int fd, unsigned int n, int *len, int *err);
+
+void    prnt_up_x_fd(int fd, unsigned int n, int *len, int *err);
+
 #endif
