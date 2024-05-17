@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_up_x_fd.c                                     :+:      :+:    :+:   */
+/*   ft_prnt_p.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 13:33:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:34:24 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:58:37 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:53:49 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_up_x_fd(int fd, unsigned int n, int *len, int *err)
+void	ft_prnt_p(t_printf *stc, unsigned long long pt)
 {
-	char	c;
-	char	*base;
-
-	base = "0123456789ABCDEF";
-	if (n / 16 > 0)
-		prnt_up_x_fd(fd, n / 16, len, err);
-	c = base[n % 16];
-	if (!*err)
-		err_chck(write(fd, &c, 1), len, err);
+	if (pt / 16 > 0)
+		ft_prnt_p(stc, pt / 16);
+	if (pt / 16 == 0)
+		ft_prnt_s(stc, "0x");
+	ft_prnt_c(stc, "0123456789abcdef"[pt % 16]);
 }

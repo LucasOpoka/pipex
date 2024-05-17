@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_u.c                                           :+:      :+:    :+:   */
+/*   ft_ctoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 13:59:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:35:26 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/15 12:47:47 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/15 16:07:57 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_u(unsigned int nb, int *len, int *err)
+char	*ft_ctoa(int c)
 {
-	char	n;
+	char	*res;
 
-	if (nb / 10 > 0 && !*err)
-	{
-		prnt_u(nb / 10, len, err);
-	}
-	n = (nb % 10) + 48;
-	if (!*err)
-		err_chck(write (1, &n, 1), len, err);
+	res = (char *) malloc(2 * sizeof(char));
+	if (!res)
+		return (NULL);
+	res[0] = c;
+	res[1] = 0;
+	return (res);
 }

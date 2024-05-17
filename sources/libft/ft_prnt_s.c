@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_p.c                                           :+:      :+:    :+:   */
+/*   ft_prnt_s.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 13:58:37 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:34:52 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:58:19 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:53:34 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_p(unsigned long long pt, int *len, int *err)
+void	ft_prnt_s(t_printf *stc, char *str)
 {
-	char	c;
+	int	i;
 
-	if (*len == 0)
-		err_chck(write(1, "0x", 2), len, err);
-	if (pt / 16 > 0 && !*err)
-		prnt_p(pt / 16, len, err);
-	if (pt % 16 <= 9)
-		c = pt % 16 + 48;
+	if (!str)
+		ft_prnt_s(stc, "(null)");
 	else
-		c = pt % 16 + 87;
-	if (!*err)
-		err_chck(write(1, &c, 1), len, err);
+	{
+		i = 0;
+		while (str[i])
+			ft_prnt_c(stc, str[i++]);
+	}
 }

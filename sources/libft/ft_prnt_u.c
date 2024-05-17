@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_lw_x_fd.c                                     :+:      :+:    :+:   */
+/*   ft_prnt_u.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 13:32:44 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:33:33 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:59:25 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:54:17 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_lw_x_fd(int fd, unsigned int n, int *len, int *err)
+void	ft_prnt_u(t_printf *stc, unsigned int nb)
 {
-	char	c;
-	char	*base;
-
-	base = "0123456789abcdef";
-	if (n / 16 > 0)
-		prnt_lw_x_fd(fd, n / 16, len, err);
-	c = base[n % 16];
-	if (!*err)
-		err_chck(write(fd, &c, 1), len, err);
+	if (nb / 10 > 0)
+		ft_prnt_u(stc, nb / 10);
+	ft_prnt_c(stc, (nb % 10) + 48);
 }

@@ -1,17 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_c.c                                           :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 13:57:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:33:31 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/15 11:51:46 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/15 11:52:42 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-int	prnt_c(int c)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	return (write(1, &c, 1));
+	size_t	i;
+
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return (dest + i);
 }

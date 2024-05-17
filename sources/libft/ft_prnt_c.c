@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_d.c                                           :+:      :+:    :+:   */
+/*   ft_prnt_c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 13:59:00 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:34:07 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:57:56 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:53:19 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_d(int nb, int *len, int *err)
+void	ft_prnt_c(t_printf *stc, int c)
 {
-	char	n;
-
-	if (nb == -2147483648)
-		err_chck(write(1, "-2147483648", 11), len, err);
-	else
-	{
-		if (nb < 0)
-		{
-			err_chck(write (1, "-", 1), len, err);
-			nb *= -1;
-		}
-		if (nb / 10 > 0 && !*err)
-		{
-			prnt_d(nb / 10, len, err);
-		}
-		n = (nb % 10) + 48;
-		if (!*err)
-			err_chck(write(1, &n, 1), len, err);
-	}
+	ft_printf_realloc(stc);
+	ft_prnt_add(stc, c);
 }

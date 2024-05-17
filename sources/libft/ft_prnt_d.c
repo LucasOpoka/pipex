@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err_chck.c                                         :+:      :+:    :+:   */
+/*   ft_prnt_d.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 16:41:40 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/03 17:17:30 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:59:00 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:54:01 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-void	err_chck(int write_res, int *len, int *err)
+void	ft_prnt_d(t_printf *stc, int nb)
 {
-	if (write_res < 0)
-	{
-		*len = -1;
-		*err = 1;
-	}
+	if (nb == -2147483648)
+		ft_prnt_s(stc, "-2147483648");
 	else
-		*len += write_res;
+	{
+		if (nb < 0)
+		{
+			ft_prnt_c(stc, '-');
+			nb *= -1;
+		}
+		if (nb / 10 > 0)
+			ft_prnt_d(stc, nb / 10);
+		ft_prnt_c(stc, (nb % 10) + 48);
+	}
 }

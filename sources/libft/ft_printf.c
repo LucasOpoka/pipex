@@ -6,63 +6,71 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:27:13 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:32:12 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/17 10:52:59 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-int	prnt_f(char f, va_list arg)
+static inline void	ft_prnt_f(t_printf *stc, char f, va_list arg)
 {
-	int	len;
-	int	err;
-
-	err = 0;
-	len = 0;
 	if (f == 'c')
-		len += prnt_c(va_arg(arg, int));
+		ft_prnt_c(stc, va_arg(arg, int));
 	if (f == 's')
-		prnt_s(va_arg(arg, char *), &len, &err);
+		ft_prnt_s(stc, va_arg(arg, char *));
 	if (f == 'p')
-		prnt_p(va_arg(arg, unsigned long long), &len, &err);
+		ft_prnt_p(stc, va_arg(arg, unsigned long long));
 	if (f == 'd')
-		prnt_d(va_arg(arg, int), &len, &err);
+		ft_prnt_d(stc, va_arg(arg, int));
 	if (f == 'i')
-		prnt_d(va_arg(arg, int), &len, &err);
+		ft_prnt_d(stc, va_arg(arg, int));
 	if (f == 'u')
-		prnt_u(va_arg(arg, unsigned int), &len, &err);
+		ft_prnt_u(stc, va_arg(arg, unsigned int));
 	if (f == 'x')
-		prnt_x(va_arg(arg, unsigned int), &len, 0, &err);
+		ft_prnt_lx(stc, va_arg(arg, unsigned int));
 	if (f == 'X')
-		prnt_x(va_arg(arg, unsigned int), &len, 1, &err);
+		ft_prnt_ux(stc, va_arg(arg, unsigned int));
 	if (f == '%')
-		len += prnt_c('%');
-	return (len);
+		ft_prnt_c(stc, '%');
+	stc->i += 1;
+}
+
+static inline void	ft_init_printf_struct(t_printf *stc)
+{
+	stc->i = 0;
+	stc->index = 0;
+	stc->size = 100;
+	stc->toadd = 100;
+	stc->err = 0;
+	stc->res = (char *) malloc(stc->size);
+	if (!stc->res)
+		stc->err = 1;
 }
 
 int	ft_printf(const char *s, ...)
 {
-	int			i;
-	int			res;
 	va_list		arg;
-	int			err;
+	t_printf	stc;
 
-	i = 0;
-	res = 0;
+	ft_init_printf_struct(&stc);
+	if (stc.err)
+		return (-1);
 	va_start(arg, s);
-	while (s[i])
+	while (s[stc.i])
 	{
-		if (s[i] == '%')
+		if (s[stc.i] == '%')
 		{
-			err = prnt_f(s[i + 1], arg);
-			i++;
+			ft_prnt_f(&stc, s[stc.i + 1], arg);
+			if (!s[stc.i])
+				break ;
 		}
 		else
-			err = prnt_c(s[i]);
-		if (err < 0)
+			ft_prnt_c(&stc, s[stc.i]);
+		if (stc.err)
 			return (-1);
-		res += err;
-		i++;
+		stc.i++;
 	}
 	va_end(arg);
-	return (res);
+	stc.i = write(1, stc.res, stc.index);
+	free(stc.res);
+	return (stc.i);
 }

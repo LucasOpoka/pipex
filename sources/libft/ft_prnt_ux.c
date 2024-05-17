@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_s_fd.c                                        :+:      :+:    :+:   */
+/*   ft_prnt_ux.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 13:29:12 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:29:21 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/03 13:59:52 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:54:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_s_fd(int fd, char *str, int *len, int *err)
+void	ft_prnt_ux(t_printf *stc, unsigned int n)
 {
-	int	i;
-
-	if (!str)
-		err_chck(write(fd, "(null)", 6), len, err);
-	else
-	{
-		i = 0;
-		while (str[i] && !*err)
-			err_chck(write(fd, &str[i++], 1), len, err);
-	}
+	if (n / 16 > 0)
+		ft_prnt_ux(stc, n / 16);
+	ft_prnt_c(stc, "0123456789ABCDEF"[n % 16]);
 }

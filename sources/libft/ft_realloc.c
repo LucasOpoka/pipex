@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_p_fd.c                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 13:28:00 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:28:06 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/16 15:47:54 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:55:40 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_p_fd(int fd, unsigned long long pt, int *len, int *err)
+void	*ft_realloc(void *src, size_t old_s, size_t add_s)
 {
-	char	c;
+	size_t	i;
+	void	*dst;
+	char	*c_dst;
+	char	*c_src;
 
-	if (*len == 0)
-		err_chck(write(fd, "0x", 2), len, err);
-	if (pt / 16 > 0 && !*err)
-		prnt_p_fd(fd, pt / 16, len, err);
-	if (pt % 16 <= 9)
-		c = pt % 16 + 48;
-	else
-		c = pt % 16 + 87;
-	if (!*err)
-		err_chck(write(fd, &c, 1), len, err);
+	dst = (void *) malloc(old_s + add_s);
+	if (!dst)
+	{
+		free (src);
+		return (0);
+	}
+	c_dst = (char *) dst;
+	c_src = (char *) src;
+	i = 0;
+	while (i < old_s)
+	{
+		c_dst[i] = c_src[i];
+		i++;
+	}
+	free(src);
+	return (dst);
 }

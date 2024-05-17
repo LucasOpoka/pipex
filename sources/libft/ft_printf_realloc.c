@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_d_fd.c                                        :+:      :+:    :+:   */
+/*   ft_printf_realloc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 13:28:55 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/14 13:28:58 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/16 15:59:09 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:55:59 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_d_fd(int fd, int nb, int *len, int *err)
+void	ft_printf_realloc(t_printf *stc)
 {
-	char	n;
-
-	if (nb == -2147483648)
-		err_chck(write(fd, "-2147483648", 11), len, err);
-	else
+	if (stc->index >= stc->size)
 	{
-		if (nb < 0)
-		{
-			err_chck(write (fd, "-", 1), len, err);
-			nb *= -1;
-		}
-		if (nb / 10 > 0 && !*err)
-		{
-			prnt_d_fd(fd, nb / 10, len, err);
-		}
-		n = (nb % 10) + 48;
-		if (!*err)
-			err_chck(write(fd, &n, 1), len, err);
+		stc->res = ft_realloc(stc->res, stc->size, stc->toadd);
+		if (!stc->res)
+			stc->err = 1;
+		stc->size += stc->toadd;
 	}
 }

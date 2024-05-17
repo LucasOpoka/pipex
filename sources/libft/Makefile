@@ -6,7 +6,7 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 13:52:43 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/13 17:31:40 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/17 11:18:46 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ SRCS = ft_isalpha.c \
 	   ft_bzero.c \
 	   ft_memcpy.c \
 	   ft_memmove.c \
+	   ft_strncpy.c \
 	   ft_strlcpy.c \
+	   ft_strcat.c \
 	   ft_strlcat.c \
 	   ft_toupper.c \
 	   ft_tolower.c \
@@ -41,6 +43,11 @@ SRCS = ft_isalpha.c \
 	   ft_split_sub.c \
 	   ft_free_split.c \
 	   ft_itoa.c \
+	   ft_ctoa.c \
+	   ft_lxtoa.c \
+	   ft_ptoa.c \
+	   ft_utoa.c \
+	   ft_uxtoa.c \
 	   ft_strmapi.c \
 	   ft_striteri.c \
 	   ft_putchar_fd.c \
@@ -57,22 +64,18 @@ SRCS = ft_isalpha.c \
 	   ft_lstiter.c \
 	   ft_lstmap.c \
 	   ft_printf.c \
-	   err_chck.c \
-	   prnt_c.c \
-	   prnt_d.c \
-	   prnt_p.c \
-	   prnt_s.c \
-	   prnt_u.c \
-	   prnt_x.c \
 	   ft_printf_fd.c \
-	   prnt_c_fd.c \
-	   prnt_s_fd.c \
-	   prnt_p_fd.c \
-	   prnt_d_fd.c \
-	   prnt_u_fd.c \
-	   prnt_lw_x_fd.c \
-	   prnt_up_x_fd.c \
-
+	   ft_prnt_c.c \
+	   ft_prnt_s.c \
+	   ft_prnt_p.c \
+	   ft_prnt_d.c \
+	   ft_prnt_u.c \
+	   ft_prnt_lx.c \
+	   ft_prnt_ux.c \
+	   ft_realloc.c \
+	   ft_printf_realloc.c \
+	   ft_prnt_add.c \
+	  
 CC = cc
 
 CFLAGS += -Wall -Wextra -Werror

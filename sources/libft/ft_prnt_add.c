@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prnt_s.c                                           :+:      :+:    :+:   */
+/*   ft_prnt_add.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 13:58:19 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/13 17:34:21 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/16 17:07:45 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/17 10:56:19 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	prnt_s(char *str, int *len, int *err)
+void	ft_prnt_add(t_printf *stc, int c)
 {
-	int	i;
-
-	if (!str)
-		err_chck(write(1, "(null)", 6), len, err);
-	else
+	if (!stc->err)
 	{
-		i = 0;
-		while (str[i] && !*err)
-			err_chck(write(1, &str[i++], 1), len, err);
+		stc->res[stc->index] = c;
+		stc->index += 1;
 	}
 }

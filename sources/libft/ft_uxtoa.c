@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_uxtoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/19 17:22:03 by lopoka            #+#    #+#             */
-/*   Updated: 2024/04/20 13:28:34 by lopoka           ###   ########.fr       */
+/*   Created: 2024/05/15 13:17:03 by lopoka            #+#    #+#             */
+/*   Updated: 2024/05/15 13:20:22 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-static void	rec_core(long num, long neg, long len, t_itoa *x)
+static void	rec_core(unsigned int num, unsigned int len, t_itoa *x)
 {
 	long	indx;
 
-	if (num / 10 > 0)
-		rec_core(num / 10, neg, len + 1, x);
-	if (num / 10 == 0)
+	if (num / 16 > 0)
+		rec_core(num / 10, len + 1, x);
+	if (num / 16 == 0)
 	{
 		x->res = (char *) malloc((len + 1) * sizeof(char));
 		if (!x->res)
@@ -25,38 +25,22 @@ static void	rec_core(long num, long neg, long len, t_itoa *x)
 		x->tot_l = len;
 		x->res[len] = 0;
 	}
-	if (neg && x->res)
-	{
-		indx = x->tot_l - len + 1;
-		x->res[0] = '-';
-	}
-	else
-		indx = x->tot_l - len;
+	indx = x->tot_l - len;
 	if (x->res)
-		x->res[indx] = num % 10 + 48;
+		x->res[indx] = "0123456789ABCDEF"[num % 16];
 }
 
-char	*ft_itoa(int nbr)
+char	*ft_uxtoa(unsigned int num)
 {
-	long		len;
-	long		num;
-	long		neg;
-	t_itoa		*x;
-	char		*res;
+	unsigned int	len;
+	t_itoa			*x;
+	char			*res;
 
-	num = (long) nbr;
-	neg = 0;
 	len = 1;
-	if (num < 0)
-	{
-		neg = 1;
-		len += 1;
-		num *= -1;
-	}
 	x = (t_itoa *) malloc(1 * sizeof(t_itoa));
 	if (!x)
 		return (NULL);
-	rec_core(num, neg, len, x);
+	rec_core(num, len, x);
 	res = x->res;
 	free(x);
 	return (res);
