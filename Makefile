@@ -6,7 +6,7 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/14 20:53:14 by lucas            ###   ########.fr        #
+#    Updated: 2024/05/17 20:17:55 by lucas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = sources/pipex.c sources/utils.c
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I ./sources/libft
+CFLAGS = -Wall -Wextra -Werror -I ./sources/libft -g
 
 DEPSFLAGS += -MMD -MP
 
