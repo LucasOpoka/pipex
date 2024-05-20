@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/19 10:37:10 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:50:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_str_insert(char *str1, char *str2, size_t ix, size_t skip);
 void	ft_rm_char(char *s, char c);
+void	ft_free_split_null(char **arr);
 
 /* - - - - - Converters to string functions - - - - -*/
 char	*ft_itoa(int nbr);

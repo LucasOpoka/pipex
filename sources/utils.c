@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/17 20:09:10 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/20 12:38:20 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -23,17 +23,15 @@ void	free_char_arr(char **arr)
 	while (arr[i])
 	{
 		free(arr[i]);
-		arr[i] = NULL;
 		i++;
 	}
 	free(arr);
-	arr = NULL;
 }
 
 char	*ft_valid_cmnd_pth(char **cmnd, int last)
 {
 	if (access(cmnd[0], F_OK) == 0)
-		return (cmnd[0]);
+		return (ft_strdup(cmnd[0]));
 	else
 	{
 		ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd[0]);

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 10:51:58 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:22:36 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 	{
 		free_char_arr(cmnd);
 		if (cmnd_str[0] == ' ' || !cmnd_str[0])
-			ft_printf_fd(2, "%s: command not found: %s\n", "pipex", cmnd_str);
+			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd_str);
 		else	
 			ft_printf_fd(2, "%s: permission denied:\n", "pipex");
 		if (last)
@@ -55,10 +55,10 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 		exit(0);
 	}
     execve(pth, cmnd, env);
+	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
     free_char_arr(cmnd);
 	if (pth)
 		free(pth);
-	ft_printf_fd(2, "%s: %s\n", "pipex", strerror(errno));
 	if (last)
 		exit (126);
 	exit (0);
@@ -105,7 +105,8 @@ int	main(int ac, char **av, char **env)
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
 	if (fd_out == -1)	
 	{
-		close(fd_in);
+		if (fd_in != -1)
+			close(fd_in);
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
 		return (1);
 	}
