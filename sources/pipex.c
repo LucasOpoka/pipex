@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 16:03:47 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:11:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -33,32 +33,28 @@ char	*get_shell(char **env)
 	return (res);
 }
 
+void	ft_open_in_out(t_pipex *stc, char **av)
+{
+	stc->fd_in = open(av[1], O_RDONLY);
+	stc->fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (stc->fd_in == -1)
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
+	if (stc->fd_out == -1)
+	{
+		if (stc->fd_in != -1)
+			close(stc->fd_in);
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
+		exit (1);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_pipex	stc;
-	/*
-	int		fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
-	int		fd_in;
-	int		fd_out;
-	int		ret1;
-	int		ret2;
-	*/
 
 	if (ac != 5)
 		return (1);
-	stc.fd_in = open(av[1], O_RDONLY);
-	stc.fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (stc.fd_in == -1)
-		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
-	if (stc.fd_out == -1)
-	{
-		if (stc.fd_in != -1)
-			close(stc.fd_in);
-		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
-		return (1);
-	}
+	ft_open_in_out(&stc, av);
 	if (pipe(stc.fd) == -1)
 	{
 		ft_printf_fd(2, "Pipe failed");
