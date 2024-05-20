@@ -6,23 +6,13 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 12:22:36 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 13:44:12 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <libft.h>
-#include <stdio.h>
+#include "../includes/pipex.h"
 
 
-char	*find_pth(char **cmnd, char **env, int last);
-void	free_char_arr(char **arr);
+char	*ft_find_pth(char **cmnd, char **env, int last);
 
 int	ft_exe(char *cmnd_str, char **env, int last)
 {
@@ -34,7 +24,7 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 		exit (1);
 	if (!cmnd[0] || !cmnd_str[0])
 	{
-		free_char_arr(cmnd);
+		ft_free_split_null(cmnd);
 		if (cmnd_str[0] == ' ' || !cmnd_str[0])
 			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd_str);
 		else	
@@ -43,11 +33,11 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 			exit (127);
 		exit (0);
 	}
-	pth = find_pth(cmnd, env, last);
+	pth = ft_find_pth(cmnd, env, last);
 	if (!pth || !cmnd_str[0] || env == NULL)
 	{
 		ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
-		free_char_arr(cmnd);
+		ft_free_split_null(cmnd);
 		if (pth)
 			free(pth);
 		if (last)
@@ -56,7 +46,7 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 	}
     execve(pth, cmnd, env);
 	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
-    free_char_arr(cmnd);
+    ft_free_split_null(cmnd);
 	if (pth)
 		free(pth);
 	if (last)
@@ -115,14 +105,14 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	if (pipe(fd) == -1)
 	{
-		perror("Pipe failed");
+		ft_printf_fd(2, "Pipe failed");
 		return (1);
 	}
 
 	pid1 = fork();
 	if (pid1 == -1)
 	{
-		perror("1st fork failed");
+		ft_printf_fd(2, "1st fork failed");
 		return (1);
 	}
 	if (pid1 == 0)
@@ -153,7 +143,7 @@ int	main(int ac, char **av, char **env)
 	pid2 = fork();
 	if (pid2 == -1)
 	{
-		perror("2nd fork failed");
+		ft_printf_fd(2, "2nd fork failed");
 		exit (1);
 	}
 	if (pid2 == 0)

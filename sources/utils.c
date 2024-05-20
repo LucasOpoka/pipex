@@ -6,43 +6,27 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 12:38:20 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 13:32:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
+#include "../includes/pipex.h"
 
-void	free_char_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-char	*ft_valid_cmnd_pth(char **cmnd, int last)
+static inline char	*ft_already_valid_pth(char **cmnd, int last)
 {
 	if (access(cmnd[0], F_OK) == 0)
 		return (ft_strdup(cmnd[0]));
 	else
 	{
-		ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd[0]);
-		free_char_arr(cmnd);
+		ft_printf_fd(2, "%s: %s: No such file or directory\n",
+			"pipex", cmnd[0]);
+		ft_free_split_null(cmnd);
 		if (last)
 			exit (127);
 		exit (0);
 	}
 }
 
-char	*ft_find_path_in_env(char **cmnd, char **env, int last)
+static inline char	*ft_find_path_in_env(char **cmnd, char **env, int last)
 {
 	int	i;
 
@@ -51,8 +35,9 @@ char	*ft_find_path_in_env(char **cmnd, char **env, int last)
 		i++;
 	if (!env[i])
 	{
-		ft_printf_fd(2, "%s: %s: No such file or directory\n", "pipex", cmnd[0]);
-		free_char_arr(cmnd);
+		ft_printf_fd(2, "%s: %s: No such file or directory\n",
+			"pipex", cmnd[0]);
+		ft_free_split_null(cmnd);
 		if (last)
 			exit (127);
 		exit (0);
@@ -60,7 +45,7 @@ char	*ft_find_path_in_env(char **cmnd, char **env, int last)
 	return (env[i]);
 }
 
-char	*ft_join_path(char *dir, char *cmnd)
+static inline char	*ft_join_path(char *dir, char *cmnd)
 {
 	char	*part;
 	char	*final_cmnd;
@@ -75,7 +60,7 @@ char	*ft_join_path(char *dir, char *cmnd)
 	return (final_cmnd);
 }
 
-char	*ft_check_path(char **split, char **cmnd)
+static inline char	*ft_check_path(char **split, char **cmnd)
 {
 	int		i;
 	char	*final_cmnd;
@@ -88,22 +73,22 @@ char	*ft_check_path(char **split, char **cmnd)
 			return (0);
 		if (access(final_cmnd, F_OK) == 0)
 		{
-			free_char_arr(split);
+			ft_free_split_null(split);
 			return (final_cmnd);
 		}
 		free(final_cmnd);
 	}
-	free_char_arr(split);
+	ft_free_split_null(split);
 	return (0);
 }
 
-char	*find_pth(char **cmnd, char **env, int last)
+char	*ft_find_pth(char **cmnd, char **env, int last)
 {
 	char	**split;
 	char	*path_in_env;
 
 	if (cmnd[0][0] == '/' || cmnd[0][0] == '.')
-		return (ft_valid_cmnd_pth(cmnd, last));
+		return (ft_already_valid_pth(cmnd, last));
 	path_in_env = ft_find_path_in_env(cmnd, env, last);
 	split = ft_split(path_in_env + 5, ':');
 	if (!split)
