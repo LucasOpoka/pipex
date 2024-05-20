@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/17 21:19:42 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/20 10:51:58 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 	char	**cmnd;
 	char	*pth;
 
-	cmnd = ft_split_sub(cmnd_str, ' ');
+	cmnd = ft_split_sub(cmnd_str, ' ', 1);
 	if (!cmnd)
 		exit (1);
 	if (!cmnd[0] || !cmnd_str[0])
