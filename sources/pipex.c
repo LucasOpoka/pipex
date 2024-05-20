@@ -6,15 +6,44 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 13:44:12 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 15:14:03 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
+void	ft_empty_cmnd(char **cmnd, char *cmnd_str, int last)
+{
+	ft_free_split_null(cmnd);
+	if (cmnd_str[0] == ' ' || !cmnd_str[0])
+		ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd_str);
+	else
+		ft_printf_fd(2, "%s: permission denied:\n", "pipex");
+	if (last)
+		exit (127);
+	exit (0);
+}
 
-char	*ft_find_pth(char **cmnd, char **env, int last);
+void	ft_no_pth(char **cmnd, int last)
+{
+	ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
+	ft_free_split_null(cmnd);
+	if (last)
+		exit(127);
+	exit(0);
+}
 
-int	ft_exe(char *cmnd_str, char **env, int last)
+void	ft_execve_failed(char **cmnd, char *pth, int last)
+{
+	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
+	ft_free_split_null(cmnd);
+	if (pth)
+		free(pth);
+	if (last)
+		exit (126);
+	exit (0);
+}
+
+void	ft_exe(char *cmnd_str, char **env, int last)
 {
 	char	**cmnd;
 	char	*pth;
@@ -23,35 +52,12 @@ int	ft_exe(char *cmnd_str, char **env, int last)
 	if (!cmnd)
 		exit (1);
 	if (!cmnd[0] || !cmnd_str[0])
-	{
-		ft_free_split_null(cmnd);
-		if (cmnd_str[0] == ' ' || !cmnd_str[0])
-			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd_str);
-		else	
-			ft_printf_fd(2, "%s: permission denied:\n", "pipex");
-		if (last)
-			exit (127);
-		exit (0);
-	}
+		ft_empty_cmnd(cmnd, cmnd_str, last);
 	pth = ft_find_pth(cmnd, env, last);
-	if (!pth || !cmnd_str[0] || env == NULL)
-	{
-		ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
-		ft_free_split_null(cmnd);
-		if (pth)
-			free(pth);
-		if (last)
-			exit(127);
-		exit(0);
-	}
-    execve(pth, cmnd, env);
-	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
-    ft_free_split_null(cmnd);
-	if (pth)
-		free(pth);
-	if (last)
-		exit (126);
-	exit (0);
+	if (!pth)
+		ft_no_pth(cmnd, last);
+	execve(pth, cmnd, env);
+	ft_execve_failed(cmnd, pth, last);
 }
 
 char	*get_shell(char **env)
@@ -76,7 +82,6 @@ char	*get_shell(char **env)
 	return (res);
 }
 
-
 int	main(int ac, char **av, char **env)
 {
 	int		fd[2];
@@ -84,23 +89,20 @@ int	main(int ac, char **av, char **env)
 	pid_t	pid2;
 	int		fd_in;
 	int		fd_out;
-
-	//char	*shell;
-
-	//shell = get_shell(env);
+	int		ret1;
+	int		ret2;
 
 	fd_in = open(av[1], O_RDONLY);
-	fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC , 0644);
+	fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd_in == -1)
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
-	if (fd_out == -1)	
+	if (fd_out == -1)
 	{
 		if (fd_in != -1)
 			close(fd_in);
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
 		return (1);
 	}
-
 	if (ac != 5)
 		return (1);
 	if (pipe(fd) == -1)
@@ -108,7 +110,6 @@ int	main(int ac, char **av, char **env)
 		ft_printf_fd(2, "Pipe failed");
 		return (1);
 	}
-
 	pid1 = fork();
 	if (pid1 == -1)
 	{
@@ -121,7 +122,6 @@ int	main(int ac, char **av, char **env)
 		{
 			close(fd[0]);
 			close(fd[1]);
-			//
 			close(fd_in);
 			close(fd_out);
 			return (0);
@@ -132,14 +132,11 @@ int	main(int ac, char **av, char **env)
 			dup2(fd[1], 1);
 			close(fd[0]);
 			close(fd[1]);
-			//
 			close(fd_in);
 			close(fd_out);
 			ft_exe(av[2], env, 0);
 		}
 	}
-
-
 	pid2 = fork();
 	if (pid2 == -1)
 	{
@@ -152,27 +149,19 @@ int	main(int ac, char **av, char **env)
 		dup2(fd_out, 1);
 		close(fd[0]);
 		close(fd[1]);
-		//
 		close(fd_in);
 		close(fd_out);
 		ft_exe(av[3], env, 1);
 	}
-
-
 	close(fd[0]);
 	close(fd[1]);
-
-	int ret1, ret2;
-
 	waitpid(pid1, &ret1, 0);
 	waitpid(pid2, &ret2, 0);
-
 	close(fd_in);
 	close(fd_out);
-
 	if (ret2)
 		return (((ret2) & 0xff00) >> 8);
 	if (ret1)
-		return (((ret1) & 0xff00) >> 8);	
+		return (((ret1) & 0xff00) >> 8);
 	return (0);
 }
