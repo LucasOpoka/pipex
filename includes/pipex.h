@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:25:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 16:03:15 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:32:51 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ typedef struct s_pipex
 
 char	*ft_find_pth(char **cmnd, char **env, int last);
 void	ft_exe(char *cmnd_str, char **env, int last);
+void	ft_first_child(t_pipex *stc, char **av, char **env);
+void	ft_last_child(t_pipex *stc, char **av, char **env);
+void	ft_close_in_out_pipe(t_pipex *stc);
 
 #endif
