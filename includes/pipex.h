@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:25:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 15:18:56 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:03:15 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 # include <fcntl.h>
 # include <errno.h>
 # include "../sources/libft/libft.h"
+
+typedef struct s_pipex
+{
+	int		fd[2];
+	int		fd_in;
+	int		fd_out;
+	pid_t	pid1;
+	pid_t	pid2;
+	int		ret1;
+	int		ret2;
+}	t_pipex;
 
 char	*ft_find_pth(char **cmnd, char **env, int last);
 void	ft_exe(char *cmnd_str, char **env, int last);

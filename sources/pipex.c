@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 15:47:31 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:03:47 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -35,6 +35,8 @@ char	*get_shell(char **env)
 
 int	main(int ac, char **av, char **env)
 {
+	t_pipex	stc;
+	/*
 	int		fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
@@ -42,77 +44,78 @@ int	main(int ac, char **av, char **env)
 	int		fd_out;
 	int		ret1;
 	int		ret2;
+	*/
 
 	if (ac != 5)
 		return (1);
-	fd_in = open(av[1], O_RDONLY);
-	fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (fd_in == -1)
+	stc.fd_in = open(av[1], O_RDONLY);
+	stc.fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (stc.fd_in == -1)
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[1], strerror(errno));
-	if (fd_out == -1)
+	if (stc.fd_out == -1)
 	{
-		if (fd_in != -1)
-			close(fd_in);
+		if (stc.fd_in != -1)
+			close(stc.fd_in);
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
 		return (1);
 	}
-	if (pipe(fd) == -1)
+	if (pipe(stc.fd) == -1)
 	{
 		ft_printf_fd(2, "Pipe failed");
 		return (1);
 	}
-	pid1 = fork();
-	if (pid1 == -1)
+	stc.pid1 = fork();
+	if (stc.pid1 == -1)
 	{
 		ft_printf_fd(2, "1st fork failed");
 		return (1);
 	}
-	if (pid1 == 0)
+	if (stc.pid1 == 0)
 	{
-		if (fd_in == -1)
+		if (stc.fd_in == -1)
 		{
-			close(fd[0]);
-			close(fd[1]);
-			close(fd_in);
-			close(fd_out);
+			close(stc.fd[0]);
+			close(stc.fd[1]);
+			close(stc.fd_in);
+			close(stc.fd_out);
 			return (0);
 		}
 		else
 		{
-			dup2(fd_in, 0);
-			dup2(fd[1], 1);
-			close(fd[0]);
-			close(fd[1]);
-			close(fd_in);
-			close(fd_out);
+			dup2(stc.fd_in, 0);
+			dup2(stc.fd[1], 1);
+			close(stc.fd[0]);
+			close(stc.fd[1]);
+			close(stc.fd_in);
+			close(stc.fd_out);
 			ft_exe(av[2], env, 0);
 		}
 	}
-	pid2 = fork();
-	if (pid2 == -1)
+	stc.pid2 = fork();
+	if (stc.pid2 == -1)
 	{
 		ft_printf_fd(2, "2nd fork failed");
 		exit (1);
 	}
-	if (pid2 == 0)
+	if (stc.pid2 == 0)
 	{
-		dup2(fd[0], 0);
-		dup2(fd_out, 1);
-		close(fd[0]);
-		close(fd[1]);
-		close(fd_in);
-		close(fd_out);
+		dup2(stc.fd[0], 0);
+		dup2(stc.fd_out, 1);
+		close(stc.fd[0]);
+		close(stc.fd[1]);
+		close(stc.fd_in);
+		close(stc.fd_out);
 		ft_exe(av[3], env, 1);
 	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, &ret1, 0);
-	waitpid(pid2, &ret2, 0);
-	close(fd_in);
-	close(fd_out);
-	if (ret2)
-		return (((ret2) & 0xff00) >> 8);
-	if (ret1)
-		return (((ret1) & 0xff00) >> 8);
+	close(stc.fd[0]);
+	close(stc.fd[1]);
+	waitpid(stc.pid1, &stc.ret1, 0);
+	waitpid(stc.pid2, &stc.ret2, 0);
+	close(stc.fd_in);
+	close(stc.fd_out);
+	if (stc.ret2)
+		return (((stc.ret2) & 0xff00) >> 8);
+	if (stc.ret1)
+		return (((stc.ret1) & 0xff00) >> 8);
 	return (0);
 }
