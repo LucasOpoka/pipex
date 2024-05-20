@@ -6,13 +6,13 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/20 13:34:08 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/20 15:22:45 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = sources/pipex.c sources/utils.c
+SRCS = sources/pipex.c sources/utils.c sources/ft_exe.c
 
 CC = cc
 
