@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 15:24:32 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/20 15:47:31 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -43,6 +43,8 @@ int	main(int ac, char **av, char **env)
 	int		ret1;
 	int		ret2;
 
+	if (ac != 5)
+		return (1);
 	fd_in = open(av[1], O_RDONLY);
 	fd_out = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd_in == -1)
@@ -54,8 +56,6 @@ int	main(int ac, char **av, char **env)
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", av[4], strerror(errno));
 		return (1);
 	}
-	if (ac != 5)
-		return (1);
 	if (pipe(fd) == -1)
 	{
 		ft_printf_fd(2, "Pipe failed");
