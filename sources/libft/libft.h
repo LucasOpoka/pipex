@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/17 11:17:53 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/19 10:37:10 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *str, char c);
-char	**ft_split_sub(char const *str, char c);
+char	**ft_split_sub(char const *str, char c, int esc);
 char	**ft_free_split(char **arr, int i);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -100,6 +100,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_str_insert(char *str1, char *str2, size_t ix, size_t skip);
+void	ft_rm_char(char *s, char c);
 
 /* - - - - - Converters to string functions - - - - -*/
 char	*ft_itoa(int nbr);

@@ -6,7 +6,7 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 13:52:43 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/17 11:18:46 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/18 19:10:57 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,10 +75,11 @@ SRCS = ft_isalpha.c \
 	   ft_realloc.c \
 	   ft_printf_realloc.c \
 	   ft_prnt_add.c \
+	   ft_rm_char.c \
 	  
 CC = cc
 
-CFLAGS += -Wall -Wextra -Werror -g
+CFLAGS += -Wall -Wextra -Werror
 
 DEPSFLAGS += -MMD -MP
 
