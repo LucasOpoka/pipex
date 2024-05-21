@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/20 17:36:54 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/21 16:55:25 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -58,6 +58,7 @@ void	ft_close_in_out_pipe(t_pipex *stc)
 	close(stc->fd_out);
 }
 
+/*
 static inline void	ft_wait_and_exit(t_pipex *stc)
 {
 	ft_close_in_out_pipe(stc);
@@ -69,20 +70,32 @@ static inline void	ft_wait_and_exit(t_pipex *stc)
 		exit ((stc->ret1 & 0xff00) >> 8);
 	exit (0);
 }
+*/
 
 int	main(int ac, char **av, char **env)
 {
 	t_pipex	stc;
+	int		i;
 
 	if (ac != 5)
 		exit (1);
 	ft_open_in_out(&stc, av);
-	if (pipe(stc.fd) == -1)
+	i = ac - 3;
+	stc.errarr = (int *) malloc(i * sizeof(int));
+	if (!stc.errarr)
+		return (1);
+	ft_first_child(&stc, av, env, stc.fd_in, ac, 2);
+	i--;
+	while (i >= 0)
 	{
-		ft_printf_fd(2, "Pipe failed");
-		exit (1);
+		if (stc.errarr[i])
+		{
+			i = (stc.errarr[i] & 0xff00) >> 8;
+			free(stc.errarr);
+			exit (i);
+		}
+		i--;
 	}
-	ft_first_child(&stc, av, env);
-	ft_last_child(&stc, av, env);
-	ft_wait_and_exit(&stc);
+	free(stc.errarr);
+	return (0);
 }
