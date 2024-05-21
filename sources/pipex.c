@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/21 16:55:25 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/21 17:26:55 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -50,6 +50,7 @@ static inline void	ft_open_in_out(t_pipex *stc, char **av)
 	}
 }
 
+/*
 void	ft_close_in_out_pipe(t_pipex *stc)
 {
 	close(stc->fd[0]);
@@ -57,6 +58,7 @@ void	ft_close_in_out_pipe(t_pipex *stc)
 	close(stc->fd_in);
 	close(stc->fd_out);
 }
+*/
 
 /*
 static inline void	ft_wait_and_exit(t_pipex *stc)
@@ -72,11 +74,30 @@ static inline void	ft_wait_and_exit(t_pipex *stc)
 }
 */
 
+void	ft_ret_err(t_pipex *stc, int i)
+{
+	while (i >= 0)
+	{
+		if (stc->errarr[i])
+		{
+			i = (stc->errarr[i] & 0xff00) >> 8;
+			free(stc->errarr);
+			exit (i);
+		}
+		i--;
+	}
+	free(stc->errarr);
+	exit (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_pipex	stc;
 	int		i;
 
+	stc.ac = ac;
+	stc.av = av;
+	stc.env = env;
 	if (ac != 5)
 		exit (1);
 	ft_open_in_out(&stc, av);
@@ -84,18 +105,6 @@ int	main(int ac, char **av, char **env)
 	stc.errarr = (int *) malloc(i * sizeof(int));
 	if (!stc.errarr)
 		return (1);
-	ft_first_child(&stc, av, env, stc.fd_in, ac, 2);
-	i--;
-	while (i >= 0)
-	{
-		if (stc.errarr[i])
-		{
-			i = (stc.errarr[i] & 0xff00) >> 8;
-			free(stc.errarr);
-			exit (i);
-		}
-		i--;
-	}
-	free(stc.errarr);
-	return (0);
+	ft_first_child(&stc, stc.fd_in, 2);
+	ft_ret_err(&stc, i - 1);
 }
