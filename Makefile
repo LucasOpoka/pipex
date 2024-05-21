@@ -6,13 +6,19 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/20 17:31:23 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/21 22:17:44 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = sources/pipex.c sources/utils.c sources/ft_exe.c sources/ft_child_processes.c
+SRCS = sources/pipex.c \
+	   sources/ft_first_child.c \
+	   sources/ft_middle_child.c \
+	   sources/ft_last_child.c \
+	   sources/ft_child_processes_utils.c \
+	   sources/utils.c \
+	   sources/ft_exe.c \
 
 CC = cc
 

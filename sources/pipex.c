@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/21 17:35:12 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/21 21:42:46 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -45,7 +45,8 @@ static inline void	ft_open_in_out(t_pipex *stc)
 	{
 		if (stc->fd_in != -1)
 			close(stc->fd_in);
-		ft_printf_fd(2, "%s: %s: %s\n", "pipex", stc->av[stc->ac - 1], strerror(errno));
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", stc->av[stc->ac - 1],
+			strerror(errno));
 		exit (1);
 	}
 }
@@ -105,6 +106,6 @@ int	main(int ac, char **av, char **env)
 	stc.errarr = (int *) malloc(i * sizeof(int));
 	if (!stc.errarr)
 		return (1);
-	ft_first_child(&stc, stc.fd_in, 2);
+	ft_first_child(&stc, 2);
 	ft_ret_err(&stc, i - 1);
 }
