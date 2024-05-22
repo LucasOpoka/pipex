@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/21 21:42:46 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:10:04 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -35,45 +35,22 @@ static inline char	*get_shell(char **env)
 }
 */
 
-static inline void	ft_open_in_out(t_pipex *stc)
+static inline void	ft_open_in_out(t_pipex *stc, int here_doc)
 {
-	stc->fd_in = open(stc->av[1], O_RDONLY);
+	if (!here_doc)
+		stc->fd_in = open(stc->av[1], O_RDONLY);
 	stc->fd_out = open(stc->av[stc->ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (stc->fd_in == -1)
+	if (!here_doc && stc->fd_in == -1)
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", stc->av[1], strerror(errno));
 	if (stc->fd_out == -1)
 	{
-		if (stc->fd_in != -1)
+		if (!here_doc && stc->fd_in != -1)
 			close(stc->fd_in);
 		ft_printf_fd(2, "%s: %s: %s\n", "pipex", stc->av[stc->ac - 1],
 			strerror(errno));
 		exit (1);
 	}
 }
-
-/*
-void	ft_close_in_out_pipe(t_pipex *stc)
-{
-	close(stc->fd[0]);
-	close(stc->fd[1]);
-	close(stc->fd_in);
-	close(stc->fd_out);
-}
-*/
-
-/*
-static inline void	ft_wait_and_exit(t_pipex *stc)
-{
-	ft_close_in_out_pipe(stc);
-	waitpid(stc->pid1, &(stc->ret1), 0);
-	waitpid(stc->pid2, &(stc->ret2), 0);
-	if (stc->ret2)
-		exit ((stc->ret2 & 0xff00) >> 8);
-	if (stc->ret1)
-		exit ((stc->ret1 & 0xff00) >> 8);
-	exit (0);
-}
-*/
 
 static inline void	ft_ret_err(t_pipex *stc, int i)
 {
@@ -101,11 +78,19 @@ int	main(int ac, char **av, char **env)
 	stc.env = env;
 	if (ac < 5)
 		exit (1);
-	ft_open_in_out(&stc);
 	i = ac - 3;
 	stc.errarr = (int *) malloc(i * sizeof(int));
 	if (!stc.errarr)
 		return (1);
-	ft_first_child(&stc, 2);
+	if (!ft_strncmp(av[1], "here_doc", 8))
+	{
+		ft_open_in_out(&stc, 1);
+		ft_here_doc(&stc, 3);
+	}
+	else
+	{
+		ft_open_in_out(&stc, 0);
+		ft_first_child(&stc, 2);
+	}
 	ft_ret_err(&stc, i - 1);
 }
