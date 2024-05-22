@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/22 18:10:04 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:06:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -85,7 +85,8 @@ int	main(int ac, char **av, char **env)
 	if (!ft_strncmp(av[1], "here_doc", 8))
 	{
 		ft_open_in_out(&stc, 1);
-		ft_here_doc(&stc, 3);
+		//Check if 2 or 3
+		ft_here_doc(&stc, 2);
 	}
 	else
 	{
