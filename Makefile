@@ -6,7 +6,7 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/21 22:17:44 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/22 13:44:49 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ SRCS = sources/pipex.c \
 	   sources/ft_middle_child.c \
 	   sources/ft_last_child.c \
 	   sources/ft_child_processes_utils.c \
-	   sources/utils.c \
 	   sources/ft_exe.c \
+	   sources/ft_find_pth.c \
 
 CC = cc
 
@@ -36,6 +36,8 @@ all : ${NAME}
 
 libft :
 	${MAKE} -C ${LIBFT}
+
+bonus : ${NAME}
 
 ${NAME} : ${OFILES} libft
 	${CC} -o ${NAME} ${CFLAGS} ${OFILES} ${LIBFT}/libft.a
