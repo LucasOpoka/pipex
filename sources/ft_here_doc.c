@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:01:14 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/22 18:47:21 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:56:54 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -49,7 +49,6 @@ static inline void	ft_read_doc(t_pipex *stc, int *fd)
 	}
 	line[i] = 10;
 	line[i + 1] = 0;
-	//if (ft_strncmp(line, stc->av[2], ft_strlen(stc->av[2])))
 	if (ft_strncmp(line, stc->av[2], ft_strlen(line) - 1))
 	{
 		ft_printf_fd(fd[1], "%s", line);
