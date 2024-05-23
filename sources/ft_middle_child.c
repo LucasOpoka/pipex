@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:03:43 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/21 22:04:25 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 15:31:35 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -38,9 +38,9 @@ void	ft_middle_child(t_pipex *stc, int *prev_fd, int i)
 	ft_middle_pipe_fork(stc, &pid, fd, prev_fd);
 	if (pid == 0)
 	{
-		ft_free_close(stc, fd);
+		ft_close(stc, fd);
 		ft_dup_close(fd[1], 1, prev_fd[0], 0);
-		ft_exe(stc->av[i], stc->env, 0);
+		ft_exe(stc->av[i], stc->env);
 	}
 	else
 	{

@@ -6,12 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/22 16:24:10 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 15:08:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
-static inline char	*ft_already_valid_pth(char **cmnd, int last)
+static inline char	*ft_already_valid_pth(char **cmnd)
 {
 	if (access(cmnd[0], F_OK) == 0)
 		return (ft_strdup(cmnd[0]));
@@ -20,13 +20,11 @@ static inline char	*ft_already_valid_pth(char **cmnd, int last)
 		ft_printf_fd(2, "%s: %s: No such file or directory\n",
 			"pipex", cmnd[0]);
 		ft_free_split_null(cmnd);
-		if (last)
-			exit (127);
-		exit (0);
+		exit (127);
 	}
 }
 
-static inline char	*ft_find_path_in_env(char **cmnd, char **env, int last)
+static inline char	*ft_find_path_in_env(char **cmnd, char **env)
 {
 	int	i;
 
@@ -38,9 +36,7 @@ static inline char	*ft_find_path_in_env(char **cmnd, char **env, int last)
 		ft_printf_fd(2, "%s: %s: No such file or directory\n",
 			"pipex", cmnd[0]);
 		ft_free_split_null(cmnd);
-		if (last)
-			exit (127);
-		exit (0);
+		exit (127);
 	}
 	return (env[i]);
 }
@@ -82,14 +78,14 @@ static inline char	*ft_check_path(char **split, char **cmnd)
 	return (0);
 }
 
-char	*ft_find_pth(char **cmnd, char **env, int last)
+char	*ft_find_pth(char **cmnd, char **env)
 {
 	char	**split;
 	char	*path_in_env;
 
 	if (cmnd[0][0] == '/' || cmnd[0][0] == '.')
-		return (ft_already_valid_pth(cmnd, last));
-	path_in_env = ft_find_path_in_env(cmnd, env, last);
+		return (ft_already_valid_pth(cmnd));
+	path_in_env = ft_find_path_in_env(cmnd, env);
 	split = ft_split(path_in_env + 5, ':');
 	if (!split)
 		return (0);

@@ -6,12 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:28:10 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/21 22:19:53 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 15:17:46 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
-void	ft_last_child(t_pipex *stc, int *prev_fd, int i)
+void	ft_last_child(t_pipex *stc, int *prev_fd)
 {
 	pid_t	pid;
 
@@ -24,14 +24,13 @@ void	ft_last_child(t_pipex *stc, int *prev_fd, int i)
 	}
 	if (pid == 0)
 	{
-		free(stc->errarr);
 		ft_dup_close(prev_fd[0], 0, stc->fd_out, 1);
-		ft_exe(stc->av[stc->ac - 2], stc->env, 1);
+		ft_exe(stc->av[stc->ac - 2], stc->env);
 	}
 	else
 	{
 		close(prev_fd[0]);
 		close(stc->fd_out);
-		waitpid(pid, &(stc->errarr[i - 2]), 0);
+		waitpid(pid, &(stc->err), 0);
 	}
 }
