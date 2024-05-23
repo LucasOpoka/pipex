@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:17:31 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/23 15:06:56 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 19:58:27 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -30,7 +30,10 @@ static inline void	ft_no_pth(char **cmnd)
 
 static inline void	ft_execve_failed(char **cmnd, char *pth)
 {
-	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
+	if (!access(cmnd[0], F_OK))
+		ft_printf_fd(2, "%s: %s: is a directory\n", "pipex", cmnd[0]);
+	else
+		ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
 	ft_free_split_null(cmnd);
 	if (pth)
 		free(pth);
