@@ -6,17 +6,18 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:28:56 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/23 15:08:30 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 16:21:42 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
 static inline char	*ft_already_valid_pth(char **cmnd)
 {
-	if (access(cmnd[0], F_OK) == 0)
+	if (!access(cmnd[0], F_OK)) //&& (!access(cmnd[0], X_OK)))
 		return (ft_strdup(cmnd[0]));
 	else
 	{
+		//ft_printf_fd(2, "%s\n", strerror(errno));
 		ft_printf_fd(2, "%s: %s: No such file or directory\n",
 			"pipex", cmnd[0]);
 		ft_free_split_null(cmnd);
@@ -83,7 +84,9 @@ char	*ft_find_pth(char **cmnd, char **env)
 	char	**split;
 	char	*path_in_env;
 
-	if (cmnd[0][0] == '/' || cmnd[0][0] == '.')
+	//if (cmnd[0][0] == '/' || cmnd[0][0] == '.')
+	//	return (ft_already_valid_pth(cmnd));
+	if (ft_strchr(cmnd[0], '/'))
 		return (ft_already_valid_pth(cmnd));
 	path_in_env = ft_find_path_in_env(cmnd, env);
 	split = ft_split(path_in_env + 5, ':');

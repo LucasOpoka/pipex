@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/23 15:22:47 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/23 16:25:16 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -63,7 +63,6 @@ static inline void	ft_ret_err(t_pipex *stc)
 int	main(int ac, char **av, char **env)
 {
 	t_pipex	stc;
-	int		i;
 
 	stc.ac = ac;
 	stc.av = av;
@@ -71,7 +70,6 @@ int	main(int ac, char **av, char **env)
 	stc.err = 0;
 	if (ac < 5)
 		exit (1);
-	i = ac - 3;
 	if (!ft_strcmp(av[1], "here_doc"))
 	{
 		ft_open_in_out(&stc, 1);
