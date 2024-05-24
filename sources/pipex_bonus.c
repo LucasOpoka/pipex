@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_mandatory.c                                  :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/24 14:46:04 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/24 14:47:53 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -44,12 +44,17 @@ int	main(int ac, char **av, char **env)
 	stc.av = av;
 	stc.env = env;
 	stc.err = 0;
-	if (ac != 5)
-	{
-		ft_printf_fd(2, "Usage: file1 cmnd1 cmnd2 file2");
+	if (ac < 5)
 		exit (1);
+	if (!ft_strcmp(av[1], "here_doc"))
+	{
+		ft_open_in_out(&stc, 1);
+		ft_here_doc(&stc, 2);
 	}
-	ft_open_in_out(&stc, 0);
-	ft_first_child(&stc, 2);
+	else
+	{
+		ft_open_in_out(&stc, 0);
+		ft_first_child(&stc, 2);
+	}
 	ft_ret_err(&stc);
 }
