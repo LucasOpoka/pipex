@@ -6,7 +6,7 @@
 #    By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 17:39:51 by lopoka            #+#    #+#              #
-#    Updated: 2024/05/24 15:33:56 by lopoka           ###   ########.fr        #
+#    Updated: 2024/05/24 17:10:23 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,21 +46,23 @@ B_DEPS = ${B_SRCS:.c=.d}
 
 LIBFT = ./sources/libft
 
-all : ${NAME}
+all : mandatory
 
-libft :
+mandatory : .mandatory
+
+.mandatory : ${OFILES}
 	${MAKE} -C ${LIBFT}
-
-${LIBFT}/libft.a: libft
-
-${NAME} : ${OFILES} ${LIBFT}/libft.a
 	${CC} -o ${NAME} ${CFLAGS} ${OFILES} ${LIBFT}/libft.a
+	@touch .mandatory
+	@rm -f .bonus
 
 bonus : .bonus
 
-.bonus : ${B_OFILES} ${LIBFT}/libft.a
+.bonus : ${B_OFILES}
+	${MAKE} -C ${LIBFT}
 	${CC} -o ${NAME} ${CFLAGS} ${B_OFILES} ${LIBFT}/libft.a
 	@touch .bonus
+	@rm -f .mandatory
 
 %.o: %.c
 	${CC} ${CFLAGS} ${DEPSFLAGS} -c -o $@ $<
@@ -70,12 +72,12 @@ bonus : .bonus
 clean :
 	rm -f ${OFILES} ${DEPS} ${B_OFILES} ${B_DEPS}
 	${MAKE} -C ${LIBFT} clean
-	@rm -f .bonus	
+	@rm -f .bonus .mandatory	
 
 fclean :
 	rm -f ${NAME} ${OFILES} ${DEPS} ${B_OFILES} ${B_DEPS}
 	${MAKE} -C ${LIBFT} fclean
-	@rm -f .bonus
+	@rm -f .bonus .mandatory
 
 re : fclean all
 
