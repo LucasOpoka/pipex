@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:17:31 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/23 21:34:00 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/24 13:48:29 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -31,9 +31,23 @@ static inline void	ft_no_pth(char **cmnd)
 static inline void	ft_execve_failed(char **cmnd, char *pth)
 {
 	if (!access(cmnd[0], F_OK) && !access(cmnd[0], X_OK))
-		ft_printf_fd(2, "%s: %s: is a directory\n", "pipex", cmnd[0]);
-	else
-		ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
+	{
+		if (pth)
+			free(pth);
+		if (ft_strchr(cmnd[0], '/'))
+		{
+			ft_printf_fd(2, "%s: %s: Is a directory\n", "pipex", cmnd[0]);
+			ft_free_split_null(cmnd);
+			exit (126);
+		}
+		else
+		{
+			ft_printf_fd(2, "%s: %s: command not found\n", "pipex", cmnd[0]);
+			ft_free_split_null(cmnd);
+			exit (127);
+		}
+	}
+	ft_printf_fd(2, "%s: %s: %s\n", "pipex", pth, strerror(errno));
 	ft_free_split_null(cmnd);
 	if (pth)
 		free(pth);
