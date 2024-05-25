@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/24 16:09:17 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/25 12:19:23 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **env)
 	stc.err = 0;
 	if (ac != 5)
 	{
-		ft_printf_fd(2, "Usage: file1 cmnd1 cmnd2 file2\n");
+		ft_printf_fd(2, "usage:\nin_file1 cmnd_1 cmnd_2 out_file\n");
 		exit (1);
 	}
 	ft_open_in_out(&stc, 0);

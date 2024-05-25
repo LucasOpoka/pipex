@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:58 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/24 14:47:53 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/25 12:19:36 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -45,7 +45,10 @@ int	main(int ac, char **av, char **env)
 	stc.env = env;
 	stc.err = 0;
 	if (ac < 5)
+	{
+		ft_printf_fd(2, "usage:\nin_file cmnd_1 | ... | cmnd_n out_file\n");
 		exit (1);
+	}
 	if (!ft_strcmp(av[1], "here_doc"))
 	{
 		ft_open_in_out(&stc, 1);

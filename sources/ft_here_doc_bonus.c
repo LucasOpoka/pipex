@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:01:14 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/24 15:33:06 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/25 12:19:06 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -65,7 +65,11 @@ void	ft_here_doc(t_pipex *stc, int i)
 	int		fd[2];
 
 	if (stc->ac < 6)
+	{
+		ft_printf_fd(2, "here_doc usage:\nhere_doc LIMITER ");
+		ft_printf_fd(2, "cmnd_1 | ... | cmnd_n out_file\n");
 		exit (1);
+	}
 	ft_here_doc_pipe_fork(stc, &pid, fd);
 	if (pid == 0)
 	{
