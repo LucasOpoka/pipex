@@ -6,16 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:06:08 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/23 15:29:33 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:17:24 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
-
-void	ft_close(t_pipex *stc, int *fd)
-{
-	close(stc->fd_out);
-	close(fd[0]);
-}
 
 void	ft_redirect_and_wait(t_pipex *stc, pid_t pid, int i, int *fd)
 {

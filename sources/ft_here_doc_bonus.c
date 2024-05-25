@@ -6,16 +6,17 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:01:14 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/25 12:19:06 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:04:11 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
 static inline void	ft_here_doc_pipe_fork(t_pipex *stc, pid_t *pid, int *fd)
 {
+	//
+	(void) stc;
 	if (pipe(fd) == -1)
 	{
-		close(stc->fd_out);
 		ft_printf_fd(2, "Pipe failed");
 		exit (1);
 	}
@@ -24,7 +25,6 @@ static inline void	ft_here_doc_pipe_fork(t_pipex *stc, pid_t *pid, int *fd)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		close(stc->fd_out);
 		ft_printf_fd(2, "Fork failed");
 		exit (1);
 	}
@@ -73,7 +73,8 @@ void	ft_here_doc(t_pipex *stc, int i)
 	ft_here_doc_pipe_fork(stc, &pid, fd);
 	if (pid == 0)
 	{
-		ft_close(stc, fd);
+		//ft_close(stc, fd);
+		close(fd[0]);
 		ft_read_doc(stc, fd);
 		exit (0);
 	}
