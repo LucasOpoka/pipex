@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:01:14 by lopoka            #+#    #+#             */
-/*   Updated: 2024/05/25 19:19:06 by lucas            ###   ########.fr       */
+/*   Updated: 2024/05/27 14:44:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/pipex.h"
@@ -44,7 +44,7 @@ void	ft_first_child(t_pipex *stc, int i)
 	pid_t	pid;
 	int		fd[2];
 
-	ft_first_pipe_fork(stc, &pid, fd);
+	ft_first_pipe_fork(&pid, fd);
 	if (pid == 0)
 	{
 		close (fd[0]);
